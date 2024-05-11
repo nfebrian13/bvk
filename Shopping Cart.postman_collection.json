@@ -1,0 +1,249 @@
+{
+	"info": {
+		"_postman_id": "7d65bf61-5cd1-44a7-83da-fe6e6df9ce78",
+		"name": "Shopping Cart",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "3797713"
+	},
+	"item": [
+		{
+			"name": "order",
+			"item": [
+				{
+					"name": "order",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"userId\": \"23ab2260-4c92-4cc4-aad7-98f1baddb5de\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:9093/api/order"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "product",
+			"item": [
+				{
+					"name": "product : get all",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:9091/api/product"
+					},
+					"response": []
+				},
+				{
+					"name": "product : get by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:9091/api/product/cf3f194f-dae5-4bf9-b2a3-fea7672a5ad7"
+					},
+					"response": []
+				},
+				{
+					"name": "product : input",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"productName\": \"bengbeng\",\r\n    \"description\": \"makanan ringan\",\r\n    \"price\": 2000,\r\n    \"quantity\": 2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:9091/api/product"
+					},
+					"response": []
+				},
+				{
+					"name": "product : update",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": \"e1a9ee50-8dc1-48ad-8c49-5270f5f6af94\",\r\n    \"productName\": \"bengbeng\",\r\n    \"description\": \"makanan\",\r\n    \"price\": 1000,\r\n    \"quantity\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:9091/api/product"
+					},
+					"response": []
+				},
+				{
+					"name": "product : quantity",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"id\": \"e1a9ee50-8dc1-48ad-8c49-5270f5f6af94\",\r\n\t\"quantity\": 3\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:9091/api/product/quantity"
+					},
+					"response": []
+				},
+				{
+					"name": "product : delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "http://localhost:9091/api/product/e1a9ee50-8dc1-48ad-8c49-5270f5f6af94"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "customer",
+			"item": [
+				{
+					"name": "customer : get all",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:9090/api/customer"
+					},
+					"response": []
+				},
+				{
+					"name": "customer : get by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:9090/api/customer/d41f9e7a-93d1-4f9b-b95a-2c7e53633c5d"
+					},
+					"response": []
+				},
+				{
+					"name": "customer : input",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"nana\",\r\n    \"email\": \"nana@gmail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:9090/api/customer"
+					},
+					"response": []
+				},
+				{
+					"name": "customer : update",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": \"1cfd4b16-d839-427a-b2b5-0bd200a2cff2\",\r\n    \"name\": \"alvaro\",\r\n    \"email\": \"alva@gmail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:9090/api/customer"
+					},
+					"response": []
+				},
+				{
+					"name": "customer : delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "http://localhost:9090/api/customer/1cfd4b16-d839-427a-b2b5-0bd200a2cff2"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "cart",
+			"item": [
+				{
+					"name": "cart : get by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:9092/api/cart/23ab2260-4c92-4cc4-aad7-98f1baddb5de"
+					},
+					"response": []
+				},
+				{
+					"name": "cart : input",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userId\": \"c1ec5165-fb8c-433b-bad1-7edd45f98f4e\",\r\n    \"productId\": \"c1ec5165-fb8c-433b-bad1-7edd45f98f4e\",\r\n    \"quantity\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:9092/api/cart"
+					},
+					"response": []
+				},
+				{
+					"name": "cart : update",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userId\": \"b560e9e9-cdc0-4548-bb60-8bed005f869c\",\r\n    \"productId\": \"alvaro\",\r\n    \"quantity\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:9092/api/cart"
+					},
+					"response": []
+				},
+				{
+					"name": "cart : delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "http://localhost:9091/api/product/e1a9ee50-8dc1-48ad-8c49-5270f5f6af94"
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
