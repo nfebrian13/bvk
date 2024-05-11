@@ -1,0 +1,22 @@
+server:
+  port: 9093
+  
+spring:
+  application:
+    name: OrderService
+  datasource:
+    url: jdbc:h2:mem:order
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: password
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true   
+  h2:
+    console:
+      enabled: true    
