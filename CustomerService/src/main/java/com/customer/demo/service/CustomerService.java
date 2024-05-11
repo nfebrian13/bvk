@@ -43,7 +43,12 @@ public class CustomerService {
 		}
 	}
 
-	public void deleteUser(String id) {
-		customerRepository.deleteById(id);
+	public String deleteUser(String id) {
+		try {
+			customerRepository.deleteById(id);
+			return "OK";
+		} catch (Exception e) {
+			return "FAIL";
+		}
 	}
 }
