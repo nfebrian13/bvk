@@ -11,7 +11,6 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
 import com.order.demo.dto.Cart;
@@ -28,53 +27,57 @@ public class OrderService {
 	@Autowired
 	private OrderRepository orderRepository;
 
-	@Transactional
 	public OrderCart order(String userId) {
-		List<Cart> carts = fetchItemByUserId(userId);
-		BigDecimal sumOrder = BigDecimal.ZERO;
-		for (Cart cart : carts) {
-			sumOrder = sumOrder.add(cart.getSum());
+		try {
+			List<Cart> carts = fetchItemByUserId(userId);
+			BigDecimal sumOrder = BigDecimal.ZERO;
+			for (Cart cart : carts) {
+				sumOrder = sumOrder.add(cart.getSum());
 
-			Product product = fetchProductfindById(cart.getProductId());
-			product.setQuantity(product.getQuantity() - cart.getQuantity());
-			product.setProductName(product.getProductName());
-			product.setDescription(product.getDescription());
-			product.setPrice(product.getPrice());
+				Product product = fetchProductfindById(cart.getProductId());
+				product.setQuantity(product.getQuantity() - cart.getQuantity());
+				product.setProductName(product.getProductName());
+				product.setDescription(product.getDescription());
+				product.setPrice(product.getPrice());
+
+				updateProduct(product);
+
+				deleteCart(userId, product.getId());
+			}
+
+			OrderCart order = new OrderCart();
+			order.setOrderId(UUID.randomUUID().toString());
+			order.setOrderDate(new Date());
+			order.setUserId(userId);
+			order.setSumOrder(sumOrder);
+			orderRepository.save(order);
 			
-			updateProduct(product);
-			
-			deleteCart(userId, product.getId());
+			return order;
+		} catch (Exception e) {
+			// TODO: handle exception
+			return null;
 		}
-		
-		OrderCart order = new OrderCart();
-		order.setOrderId(UUID.randomUUID().toString());
-		order.setOrderDate(new Date());
-		order.setUserId(userId);
-		order.setSumOrder(sumOrder);
-		orderRepository.save(order);
-		
-		return order;
 	}
-	
+
 	public void deleteCart(String userId, String productId) {
-        String url = "http://localhost:9092/api/cart";
-        
-        Cart param = new Cart();
-        param.setUserId(userId);
-        param.setProductId(productId);
-        
-        HttpEntity<Cart> requestEntity = new HttpEntity<>(param, null);
-        ResponseEntity<Cart> response = restTemplate.exchange(url, HttpMethod.DELETE, requestEntity, Cart.class);
-        Cart responseBody = response.getBody();
+		String url = "http://localhost:9092/api/cart";
+
+		Cart param = new Cart();
+		param.setUserId(userId);
+		param.setProductId(productId);
+
+		HttpEntity<Cart> requestEntity = new HttpEntity<>(param, null);
+		ResponseEntity<Cart> response = restTemplate.exchange(url, HttpMethod.DELETE, requestEntity, Cart.class);
+		Cart responseBody = response.getBody();
 		System.out.println(responseBody);
 	}
-	
+
 	public void updateProduct(Product product) {
-        String url = "http://localhost:9091/api/product";
-        
-        HttpEntity<Product> requestEntity = new HttpEntity<>(product, null);
-        ResponseEntity<Product> response = restTemplate.exchange(url, HttpMethod.PUT, requestEntity, Product.class);
-        Product responseBody = response.getBody();
+		String url = "http://localhost:9091/api/product";
+
+		HttpEntity<Product> requestEntity = new HttpEntity<>(product, null);
+		ResponseEntity<Product> response = restTemplate.exchange(url, HttpMethod.PUT, requestEntity, Product.class);
+		Product responseBody = response.getBody();
 		System.out.println(responseBody);
 	}
 

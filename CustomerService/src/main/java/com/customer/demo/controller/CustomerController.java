@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.customer.demo.dto.APIResult;
 import com.customer.demo.entity.Customer;
 import com.customer.demo.service.CustomerService;
 
@@ -25,62 +25,40 @@ public class CustomerController {
 	private CustomerService userService;
 
 	@GetMapping("/customer")
-	public APIResult getAllUsers() {
-		APIResult apiResult = new APIResult();
+	public ResponseEntity<List<Customer>> getAllUsers() {
 		List<Customer> users = userService.findAll();
-		if (users.size() > 0) {
-			apiResult.setResult(users);
-		} else {
-			apiResult.setErrorMsg("result not found.");
-		}
-		return apiResult;
+		return new ResponseEntity<>(users, HttpStatus.OK);
 	}
 
 	@GetMapping("/customer/{id}")
-	public APIResult getUserById(@PathVariable String id) {
-		APIResult apiResult = new APIResult();
+	public ResponseEntity<Customer> getUserById(@PathVariable String id) {
 		Customer user = userService.getUserById(id);
 		if (user != null) {
-			apiResult.setResult(user);
+			return new ResponseEntity<>(user, HttpStatus.OK);
 		} else {
-			apiResult.setErrorMsg("result not found.");
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-		return apiResult;
 	}
 
 	@PostMapping("/customer")
-	public APIResult createUser(@RequestBody Customer user) {
-		APIResult apiResult = new APIResult();
+	public ResponseEntity<Customer> createUser(@RequestBody Customer user) {
 		Customer createdUser = userService.createUser(user);
-		if (createdUser != null) {
-			apiResult.setResult(createdUser);
-		} else {
-			apiResult.setErrorMsg(HttpStatus.INTERNAL_SERVER_ERROR.toString());
-		}
-		return apiResult;
+		return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
 	}
 
 	@PutMapping("/customer")
-	public APIResult updateUser(@RequestBody Customer userDetails) {
-		APIResult apiResult = new APIResult();
+	public ResponseEntity<Customer> updateUser(@RequestBody Customer userDetails) {
 		Customer updatedUser = userService.updateUser(userDetails);
 		if (updatedUser != null) {
-			apiResult.setResult(updatedUser);
+			return new ResponseEntity<>(updatedUser, HttpStatus.OK);
 		} else {
-			apiResult.setErrorMsg(HttpStatus.INTERNAL_SERVER_ERROR.toString());
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-		return apiResult;
 	}
 
 	@DeleteMapping("/customer/{id}")
-	public APIResult deleteUser(@PathVariable String id) {
-		APIResult apiResult = new APIResult();
-		String result = userService.deleteUser(id);
-		if (result.equalsIgnoreCase("OK")) {
-			apiResult.setResult(HttpStatus.OK);
-		} else {
-			apiResult.setErrorMsg(HttpStatus.INTERNAL_SERVER_ERROR.toString());
-		}
-		return apiResult;
+	public ResponseEntity<Void> deleteUser(@PathVariable String id) {
+		userService.deleteUser(id);
+		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 }
