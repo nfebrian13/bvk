@@ -27,12 +27,15 @@ public class ProductService {
 	}
 
 	public Product createItem(Product product) {
-		product.setId(UUID.randomUUID().toString());
-		return productRepository.save(product);
+		try {
+			product.setId(UUID.randomUUID().toString());
+			return productRepository.save(product);
+		} catch (Exception e) {
+			return null;
+		}
 	}
 
 	public Product updateProduct(Product productDto) {
-
 		Optional<Product> productOptional = productRepository.findById(productDto.getId());
 		if (productOptional.isPresent()) {
 			Product product = productOptional.get();
@@ -45,7 +48,7 @@ public class ProductService {
 			return null;
 		}
 	}
-	
+
 	public Product updateQuantityProduct(Product productDto) {
 		Optional<Product> productOptional = productRepository.findById(productDto.getId());
 		if (productOptional.isPresent()) {
@@ -60,7 +63,13 @@ public class ProductService {
 		}
 	}
 
-	public void deleteProduct(String id) {
-		productRepository.deleteById(id);
+	public String deleteProduct(String id) {
+		try {
+			productRepository.deleteById(id);
+			return "OK";
+		} catch (Exception e) {
+			return "FAIL";
+		}
+
 	}
 }
