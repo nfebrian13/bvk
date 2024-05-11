@@ -38,7 +38,7 @@ public class CartService {
 				cart.setSum(new BigDecimal(cart.getPrice().doubleValue() * cart.getQuantity()));
 				cartRepository.save(cart);
 				
-				updateProductQuantity(cart.getProductId(), cart.getQuantity());
+//				updateProductQuantity(cart.getProductId(), cart.getQuantity());
 			}
 		} else {
 			cart = new Cart();
@@ -51,7 +51,7 @@ public class CartService {
 				cart.setUserId(userId);
 				cartRepository.save(cart);
 				
-				updateProductQuantity(cart.getProductId(), cart.getQuantity());
+//				updateProductQuantity(cart.getProductId(), cart.getQuantity());
 			}
 		}
 		return cart;
